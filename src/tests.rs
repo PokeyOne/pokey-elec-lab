@@ -56,3 +56,39 @@ fn test_element_builder_resistance_calculation_with_negative_current() -> Result
 
     Ok(())
 }
+
+#[test]
+fn test_element_builder_resistance_calculation_with_negative_voltage() -> Result<(), ElementBuildError> {
+    let element = ElementBuilder::new()
+        .voltage(-1.5)
+        .current(1.0)
+        .build()?;
+
+    assert_eq!(element.resistance, 1.5);
+
+    Ok(())
+}
+
+#[test]
+fn test_element_builder_current_calculation() -> Result<(), ElementBuildError> {
+    let element = ElementBuilder::new()
+        .voltage(1.5)
+        .resistance(1.5)
+        .build()?;
+
+    assert_eq!(element.current, 1.0);
+
+    Ok(())
+}
+
+#[test]
+fn test_element_builder_voltage_calculation() -> Result<(), ElementBuildError> {
+    let element = ElementBuilder::new()
+        .current(1.0)
+        .resistance(1.5)
+        .build()?;
+
+    assert_eq!(element.voltage, 1.5);
+
+    Ok(())
+}
