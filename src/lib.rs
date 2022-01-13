@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 pub mod basic_laws;
 
 pub struct ElementBuilder {
@@ -15,6 +18,7 @@ pub struct Element {
 }
 
 /// Errors encountered when building an [`Element`] from an [`ElementBuilder`].
+#[derive(Debug, PartialEq)]
 pub enum ElementBuildError {
     /// There must be at least two of voltage, current, or resistance filled.
     NotEnoughData,
@@ -33,17 +37,17 @@ impl ElementBuilder {
         }
     }
 
-    pub fn name(self, name: String) -> ElementBuilder {
+    pub fn name<S: Into<String>>(self, name: S) -> ElementBuilder {
         ElementBuilder {
-            name: Some(name),
+            name: Some(name.into()),
             voltage: self.voltage,
             current: self.current,
             resistance: self.resistance,
         }
     }
 
-    pub fn set_name(&mut self, name: String) {
-        self.name = Some(name);
+    pub fn set_name<S: Into<String>>(&mut self, name: S) {
+        self.name = Some(name.into());
     }
 
     pub fn voltage(self, voltage: f64) -> ElementBuilder {
